@@ -1,4 +1,4 @@
-import { Modal, Input } from "antd";
+import { Modal, Input, Alert } from "antd";
 import { useState } from "react";
 import { db } from "../db";
 
@@ -23,7 +23,6 @@ const CreateProjectModal = (props: Props) => {
 			setName("");
 			setStatus("");
 			setLoading(false);
-
 			close();
 		} catch(e) {
 			setStatus((e as Error).message);
@@ -50,7 +49,15 @@ const CreateProjectModal = (props: Props) => {
 				placeholder="Name"
 			/>
 
-			<p style={{ color: 'red' }}>{status}</p>
+			{
+				status &&
+				<Alert
+					message={status}
+					type="error"
+					style={{ marginTop: '.8rem' }}
+					showIcon
+				/>
+			}
 		</Modal>
 	</>;
 }
