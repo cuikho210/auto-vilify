@@ -1,5 +1,5 @@
 import {useState} from "react";
-import { Project, db } from "../db";
+import { Project, db } from "../../db";
 import { Input, Space, Button } from "antd";
 
 interface CreateSentenceFormProps {
@@ -11,7 +11,7 @@ const CreateSentenceForm = (props: CreateSentenceFormProps) => {
 	const [isLoading, setIsLoading] = useState(false);
 
 	async function createSentence() {
-		if (!props.project.id || isLoading) return;
+		if (!props.project.id || isLoading || !value.trim().length) return;
 		setIsLoading(true);
 
 		try {
@@ -34,6 +34,7 @@ const CreateSentenceForm = (props: CreateSentenceFormProps) => {
 			value={value}
 			onChange={(e) => setValue(e.currentTarget.value)}
 			onPressEnter={createSentence}
+			spellCheck={false}
 		/>
 		<Button
 			onClick={createSentence}

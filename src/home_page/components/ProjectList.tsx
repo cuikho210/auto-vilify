@@ -1,11 +1,11 @@
-import { db } from "../db";
+import { db } from "../../db";
 import { Button, Modal, Space } from "antd";
 import {
 	EditOutlined,
 	PlayCircleOutlined,
 	DeleteOutlined,
 } from "@ant-design/icons";
-import type { Project } from "../db";
+import type { Project } from "../../db";
 import type { CSSProperties } from "react";
 
 interface ProjectCardProps {
@@ -81,6 +81,7 @@ const ProjectCard = (props: ProjectCardProps) => {
 const ProjectList = (props: ProjectListProps) => {
 	const list = props.projects.map(project =>
 		<ProjectCard
+			key={project.id}
 			project={project}
 			setCurrentProject={props.setCurrentProject}
 		/>

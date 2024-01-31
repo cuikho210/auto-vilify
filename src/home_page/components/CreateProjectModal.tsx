@@ -1,6 +1,6 @@
 import { Modal, Input, Alert } from "antd";
 import { useState } from "react";
-import { db } from "../db";
+import { db } from "../../db";
 
 interface Props {
 	isOpen: boolean

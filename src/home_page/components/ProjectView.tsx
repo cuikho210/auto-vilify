@@ -1,14 +1,15 @@
 import {CSSProperties } from "react";
 import {useLiveQuery} from "dexie-react-hooks";
-import { db } from "../db";
+import { db } from "../../db";
 import { Layout, Button, Flex, Space } from "antd";
 import {
 	ArrowLeftOutlined,
 	PlayCircleOutlined,
 } from "@ant-design/icons";
 import CreateSentenceForm from "./CreateSentenceForm";
-import { headerStyle } from "../App";
-import type { Project, Sentence } from "../db";
+import { headerStyle } from "../HomePage";
+import { initWindow } from "../../play_page/wm";
+import type { Project, Sentence } from "../../db";
 
 const { Header, Content } = Layout;
 
@@ -39,6 +40,7 @@ const AppBar = (props: ProjectViewProps) => {
 					<Button
 						type="primary"
 						icon={<PlayCircleOutlined />}
+						onClick={() => initWindow(props.project.id!)}
 					>Play</Button>
 				</Space>
 			</Flex>
@@ -79,12 +81,15 @@ const SentenceCard = (props: SentenceCardProps) => {
 
 const ProjectView = (props: ProjectViewProps) => {
 	const sentences = useLiveQuery(() => db.sentences
-		.filter(sentence => sentence.project_id === props.project.id)
+		.where('project_id')
+		.equals(props.project.id || 0)
+		.reverse()
 		.toArray()
 	);
 
 	const list = sentences?.map(sentence =>
 		<SentenceCard
+			key={sentence.id}
 			sentence={sentence}
 		/>
 	);
