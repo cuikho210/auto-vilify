@@ -23,7 +23,7 @@
     "bundle": {
       "active": true,
       "category": "DeveloperTool",
-      "copyright": "",
+      "copyright": "cuikho210",
       "deb": {
         "depends": []
       },
@@ -35,7 +35,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "com.tauri.dev",
+      "identifier": "io.github.cuikho210",
       "longDescription": "",
       "macOS": {
         "entitlements": null,

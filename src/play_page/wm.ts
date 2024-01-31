@@ -59,6 +59,15 @@ export async function initWindow(project_id: number): Promise<boolean> {
 	return true;
 }
 
+export async function setIgnoreWindowBgMouseEvent(isIgnore: boolean) {
+	let windowBg = WebviewWindow.getByLabel(windowBgLabel);
+	if (windowBg) {
+		await windowBg.setIgnoreCursorEvents(isIgnore);
+		return true;
+	}
+	return false;
+}
+
 export function setChatboxPosition(position: number[]) {
 	localStorage.setItem(chatboxConfigKey, JSON.stringify(position));
 }

@@ -2,7 +2,7 @@ import { db } from "../db";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
-import { closeWindow } from "./wm";
+import { play, stop } from "./player";
 import { Button, Divider, Flex, InputNumber, Space, Switch } from "antd";
 import { PlayCircleOutlined, BorderOutlined } from "@ant-design/icons";
 import type { Project } from "../db";
@@ -95,14 +95,27 @@ const PlayPage = () => {
 		.toArray()
 	);
 
-	const [isPlaying, setIsPlaying] = useState(true);
+	const [isPlaying, setIsPlaying] = useState(false);
 	const [staticInterval, setStaticInterval] = useState(60);
 	const [additionalInterval, setAdditionalInterval] = useState(30);
 	const [isRandom, setIsRandom] = useState(true);
 	const [isLoop, setIsLoop] = useState(false);
 
 	function togglePlay() {
-		setIsPlaying(!isPlaying);
+		if (isPlaying) {
+			setIsPlaying(false);
+			stop();
+		} else {
+			if (!sentences) return console.error("Cannot get sentences");
+
+			setIsPlaying(true);
+			play({
+				isLoop, isRandom,
+				staticInterval, additionalInterval,
+				sentences,
+				stopCallback: () => setIsPlaying(false),
+			});
+		}
 	}
 
 	if (!project) return <p>Cannot get project</p>;
