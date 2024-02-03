@@ -27,3 +27,7 @@ const root = createRoot(
 root.render(
 	<RouterProvider router={router} />
 );
+
+document.addEventListener("contextmenu", event => {
+    event.preventDefault();
+});
