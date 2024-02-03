@@ -17,7 +17,7 @@ export async function initWindow(project_id: number): Promise<boolean> {
 		maximizable: false,
 		minimizable: false,
 		width: 360,
-		height: 244,
+		height: 256,
 	});
 
 	const windowBg = new WebviewWindow(windowBgLabel, {

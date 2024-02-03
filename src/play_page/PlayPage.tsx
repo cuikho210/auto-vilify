@@ -1,4 +1,5 @@
 import { db } from "../db";
+import { register, unregister } from "@tauri-apps/api/globalShortcut";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
@@ -12,6 +13,8 @@ interface HeaderProps {
 	isPlaying: boolean,
 	togglePlay: () => any,
 }
+
+const shortcut = "Shift+Space";
 
 const Header = (props: HeaderProps) => {
 	let PlayButton = <Button
@@ -28,10 +31,15 @@ const Header = (props: HeaderProps) => {
 		>Stop</Button>;
 	}
 
-	return <Flex align="center" justify="space-between" data-tauri-drag-region>
-		<p style={{ padding: '0 .5rem' }}>{props.project.name}</p>
-		{PlayButton}
-	</Flex>
+	return <>
+		<Flex align="center" justify="space-between" data-tauri-drag-region>
+			<p style={{ padding: '0 .5rem' }}>{props.project.name}</p>
+			{PlayButton}
+		</Flex>
+		<p style={{ padding: '0 .5rem', fontStyle: 'italic' }}>
+			Use {shortcut} to toggle play
+		</p>
+	</>
 }
 
 interface DurationConfigProps {
@@ -117,6 +125,14 @@ const PlayPage = () => {
 			});
 		}
 	}
+
+	(async function registerTogglePlayShortcut() {
+		await unregister(shortcut);
+
+		await register(shortcut, () => {
+			togglePlay();
+		});
+	})();
 
 	if (!project) return <p>Cannot get project</p>;
 	return <>
