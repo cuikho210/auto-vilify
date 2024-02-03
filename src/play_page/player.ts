@@ -27,7 +27,7 @@ export function play(config: Config) {
 	currentConfig.sentences = [...config.sentences];
 	setIgnoreWindowBgMouseEvent(true);
 
-	if (config.short == ShortMode.Asc) {
+	if (config.short === ShortMode.Asc) {
 		currentConfig.sentences = currentConfig.sentences.reverse();
 	}
 
