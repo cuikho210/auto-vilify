@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { getVersion } from "@tauri-apps/api/app";
 import { Flex, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 import CreateProjectModal from "./CreateProjectModal";
@@ -7,8 +8,8 @@ interface ActionsProps {
 	onNewProjectClick: () => void
 }
 
-const Title = () => (
-	<i>Auto Vilify</i>
+const Title = (props: { version: string }) => (
+	<i>Auto Vilify {props.version}</i>
 );
 
 const Actions = (props: ActionsProps) => (<>
@@ -21,10 +22,13 @@ const Actions = (props: ActionsProps) => (<>
 
 const AppBar = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const [version, setVersion] = useState("");
+
+	getVersion().then(version => setVersion(version));
 
 	return <>
 		<Flex justify="space-between" align="center" gap="middle">
-			<Title />
+			<Title version={version} />
 			<Actions
 				onNewProjectClick={() => setIsOpen(true)}
 			/>

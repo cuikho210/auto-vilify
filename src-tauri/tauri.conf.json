@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "auto-vilify",
-    "version": "0.1.0"
+    "version": "0.1.1"
   },
   "tauri": {
     "allowlist": {
@@ -38,7 +38,7 @@
         "icons/icon.icns",
         "icons/icon.ico"
       ],
-      "identifier": "io.github.cuikho210",
+      "identifier": "com.mtlkms.auto-vilify",
       "longDescription": "",
       "macOS": {
         "entitlements": null,
@@ -60,15 +60,22 @@
       "csp": null
     },
     "updater": {
-      "active": false
+      "active": true,
+	  "endpoints": [
+		  "https://gist.githubusercontent.com/cuikho210/00be1edca73346264427daf89eaf9ada/raw/auto-vilify-updater.json"
+	  ],
+	  "dialog": true,
+	  "pubkey": "dW50cnVzdGVkIGNvbW1lbnQ6IG1pbmlzaWduIHB1YmxpYyBrZXk6IENERjM3NDU0MTEwMUYyOQpSV1FwSHhCQlJUZmZESmJxNTlvQnpQYnpVbDVjbU5WS3FJZHY3emYxdlhqTGFkU2gyQlk1NVJBZQo="
     },
     "windows": [
       {
         "fullscreen": false,
+        "width": 800,
         "height": 600,
+		"minWidth": 800,
+		"minHeight": 600,
         "resizable": true,
-        "title": "Auto Vilify",
-        "width": 800
+        "title": "Auto Vilify"
       }
     ]
   }

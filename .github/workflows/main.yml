@@ -1,0 +1,46 @@
+name: 'Publish'
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  build-binaries:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+
+    runs-on: "windows-latest"
+    steps:
+      - uses: actions/checkout@v3
+      - name: setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+      - name: install frontend dependencies
+        run: yarn install
+      - name: Get release message
+        shell: pwsh
+        run: |
+          "release_body=$(Get-Content ./RELEASE.md)" >> $env:GITHUB_ENV
+      - uses: tauri-apps/tauri-action@dev
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
+          TAURI_KEY_PASSWORD: ${{ secrets.TAURI_KEY_PASSWORD }}
+        with:
+          tagName: v__VERSION__
+          releaseName: 'Release v__VERSION__'
+          releaseBody: ${{ env.release_body }}
+          releaseDraft: true
+          prerelease: false
+          includeUpdaterJson: true
+      - name: Update updater json file on gist
+        uses: exuanbo/actions-deploy-gist@v1
+        with:
+          token: ${{ secrets.GIST_TOKEN }}
+          gist_id: 00be1edca73346264427daf89eaf9ada
+          file_path: auto-vilify-updater.json

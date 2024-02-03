@@ -110,8 +110,8 @@ const PlayPage = () => {
 	);
 
 	const [isPlaying, setIsPlaying] = useState(false);
-	const [staticInterval, setStaticInterval] = useState(60);
-	const [additionalInterval, setAdditionalInterval] = useState(30);
+	const [staticInterval, setStaticInterval] = useState(10);
+	const [additionalInterval, setAdditionalInterval] = useState(0);
 	const [isRandom, setIsRandom] = useState(true);
 	const [isLoop, setIsLoop] = useState(false);
 	const [isDescending, setIsDescending] = useState(true);
