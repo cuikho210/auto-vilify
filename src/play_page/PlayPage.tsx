@@ -3,10 +3,11 @@ import { register, unregister } from "@tauri-apps/api/globalShortcut";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
-import { play, stop } from "./player";
+import { play, stop, ShortMode } from "./player";
 import { Button, Divider, Flex, InputNumber, Space, Switch } from "antd";
 import { PlayCircleOutlined, BorderOutlined } from "@ant-design/icons";
 import type { Project } from "../db";
+import type { Config } from "./player";
 
 interface HeaderProps {
 	project: Project,
@@ -76,6 +77,8 @@ interface OtherConfigProps {
 	setIsRandom: (value: boolean) => any,
 	isLoop: boolean,
 	setIsLoop: (value: boolean) => any,
+	isDescending:boolean,
+	setIsDescending: (value: boolean) => any,
 }
 
 const OtherConfig = (props: OtherConfigProps) => {
@@ -85,8 +88,11 @@ const OtherConfig = (props: OtherConfigProps) => {
 			<p>Random: </p>
 			<Switch value={props.isRandom} onChange={props.setIsRandom} />
 
-			<p style={{ marginLeft: '3rem' }}>Loop: </p>
+			<p>Loop: </p>
 			<Switch value={props.isLoop} onChange={props.setIsLoop} />
+
+			<p>Descending: </p>
+			<Switch value={props.isDescending} onChange={props.setIsDescending} />
 		</Space>
 	</div>
 }
@@ -108,22 +114,26 @@ const PlayPage = () => {
 	const [additionalInterval, setAdditionalInterval] = useState(30);
 	const [isRandom, setIsRandom] = useState(true);
 	const [isLoop, setIsLoop] = useState(false);
+	const [isDescending, setIsDescending] = useState(true);
 
 	function togglePlay() {
 		if (isPlaying) {
 			setIsPlaying(false);
 			stop();
 		} else {
-			if (!sentences) return console.error("Cannot get sentences");
-
 			setIsPlaying(true);
-			play({
-				isLoop, isRandom,
-				staticInterval, additionalInterval,
-				sentences,
-				stopCallback: () => setIsPlaying(false),
-			});
+			play(getConfig());
 		}
+	}
+
+	function getConfig(): Config {
+		return {
+			isLoop, isRandom,
+			staticInterval, additionalInterval,
+			short: isDescending ? ShortMode.Desc : ShortMode.Asc,
+			sentences: sentences || [],
+			stopCallback: () => setIsPlaying(false),
+		};
 	}
 
 	(async function registerTogglePlayShortcut() {
@@ -152,6 +162,8 @@ const PlayPage = () => {
 			setIsRandom={setIsRandom}
 			isLoop={isLoop}
 			setIsLoop={setIsLoop}
+			isDescending={isDescending}
+			setIsDescending={setIsDescending}
 		/>
 	</>;
 }

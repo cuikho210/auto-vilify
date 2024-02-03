@@ -2,11 +2,16 @@ import { getChatboxPosition, setIgnoreWindowBgMouseEvent } from "./wm";
 import { invoke } from "@tauri-apps/api";
 import type { Sentence } from "../db";
 
+export enum ShortMode {
+	Asc, Desc,
+}
+
 export interface Config {
 	isLoop: boolean,
 	isRandom: boolean,
 	staticInterval: number,
 	additionalInterval: number,
+	short: ShortMode,
 	sentences: Sentence[],
 	stopCallback: () => any,
 }
@@ -19,7 +24,12 @@ export function play(config: Config) {
 	isPlaying = true;
 	currentIndex = 0;
 	currentConfig = config;
+	currentConfig.sentences = [...config.sentences];
 	setIgnoreWindowBgMouseEvent(true);
+
+	if (config.short == ShortMode.Asc) {
+		currentConfig.sentences = currentConfig.sentences.reverse();
+	}
 
 	if (config.isRandom) {
 		currentConfig.sentences = shuffle(currentConfig.sentences);
@@ -32,6 +42,7 @@ export function stop() {
 	isPlaying = false;
 	setIgnoreWindowBgMouseEvent(false);
 	currentConfig?.stopCallback();
+	currentConfig = null;
 }
 
 function loop() {

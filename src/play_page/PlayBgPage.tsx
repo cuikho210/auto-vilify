@@ -1,24 +1,24 @@
 import { useRef, useEffect } from "react";
 
 const PlayBgPage = () => {
-	const canvasRef = useRef<HTMLCanvasElement>(null);
-
-	useEffect(() => {
-		const canvas = canvasRef.current;
-		if (!canvas) return console.error("Canvas is null");
-
-		const ctx = canvas.getContext("2d");
-		if (!ctx) return console.error("Cannot get context");
-
-		canvas.width = window.innerWidth;
-		canvas.height = window.innerHeight;
-		canvas.style.backgroundColor = "#ff907f88";
-	});
-
-	return <canvas
-		ref={canvasRef}
-		data-tauri-drag-region
-	></canvas>;
+	return <div data-tauri-drag-region style={{
+		top: 0,
+		left: 0,
+		width: '100%',
+		height: '100%',
+		position: 'fixed',
+		backgroundColor: '#ff907faa',
+		display: 'flex',
+		justifyContent: 'center',
+		alignItems: 'center',
+	}}>
+		<div style={{
+			width: '8px',
+			height: '8px',
+			backgroundColor: '#ff907f',
+			border: '1px solid #000',
+		}}></div>
+	</div>;
 }
 
 export default PlayBgPage;
