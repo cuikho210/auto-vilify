@@ -35,6 +35,8 @@ const CreateSentenceForm = (props: CreateSentenceFormProps) => {
 			onChange={(e) => setValue(e.currentTarget.value)}
 			onPressEnter={createSentence}
 			spellCheck={false}
+			showCount
+			maxLength={100}
 		/>
 		<Button
 			onClick={createSentence}
