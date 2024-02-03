@@ -46,7 +46,9 @@ const CreateProjectModal = (props: Props) => {
 				style={{ marginTop: '.5rem' }}
 				value={name}
 				onChange={e => setName(e.currentTarget.value)}
+				onPressEnter={create}
 				placeholder="Name"
+				spellCheck={false}
 			/>
 
 			{
