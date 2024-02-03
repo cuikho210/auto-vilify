@@ -43,4 +43,4 @@ jobs:
         with:
           token: ${{ secrets.GIST_TOKEN }}
           gist_id: 00be1edca73346264427daf89eaf9ada
-          file_path: auto-vilify-updater.json
+          file_path: latest.json
