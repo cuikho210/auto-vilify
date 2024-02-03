@@ -1,5 +1,3 @@
-import { useRef, useEffect } from "react";
-
 const PlayBgPage = () => {
 	return <div data-tauri-drag-region style={{
 		top: 0,
