@@ -1,9 +1,11 @@
 import { db } from "../db";
 import { register, unregister } from "@tauri-apps/api/globalShortcut";
+import { WebviewWindow, LogicalPosition } from "@tauri-apps/api/window";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useLiveQuery } from "dexie-react-hooks";
 import { play, stop, ShortMode } from "./player";
+import { windowBgLabel, setChatboxPosition, initWindow } from "./wm";
 import { Button, Divider, Flex, InputNumber, Space, Switch } from "antd";
 import { PlayCircleOutlined, BorderOutlined } from "@ant-design/icons";
 import type { Project } from "../db";
@@ -32,10 +34,28 @@ const Header = (props: HeaderProps) => {
 		>Stop</Button>;
 	}
 
+	let ResetButton = <Button
+		onClick={resetChatboxPosition}
+	>Reset</Button>
+
+	function resetChatboxPosition() {
+		setChatboxPosition([0, 0]);
+
+		let windowBg = WebviewWindow.getByLabel(windowBgLabel);
+		if (windowBg) {
+			windowBg.setPosition(new LogicalPosition(0, 0));
+		} else {
+			initWindow(props.project.id || 0);
+		}
+	}
+
 	return <>
 		<Flex align="center" justify="space-between" data-tauri-drag-region>
 			<p style={{ padding: '0 .5rem' }}>{props.project.name}</p>
-			{PlayButton}
+			<div>
+				{ResetButton}
+				{PlayButton}
+			</div>
 		</Flex>
 		<p style={{ padding: '0 .5rem', fontStyle: 'italic' }}>
 			Use {shortcut} to toggle play

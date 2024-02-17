@@ -1,13 +1,11 @@
 import { LogicalPosition, WebviewWindow } from "@tauri-apps/api/window";
 
-const windowControlLabel = "window-play-control";
-const windowBgLabel = "window-bg-control";
-const chatboxConfigKey = "chatbox_position";
+export const windowControlLabel = "window-play-control";
+export const windowBgLabel = "window-bg-control";
+export const chatboxConfigKey = "chatbox_position";
 
 export async function initWindow(project_id: number): Promise<boolean> {
-	if (await closeWindow()) {
-		return false;
-	}
+	await closeWindow();
 
 	const windowControl = new WebviewWindow(windowControlLabel, {
 		url: "/play/" + project_id,
